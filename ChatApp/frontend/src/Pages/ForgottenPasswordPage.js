@@ -5,7 +5,7 @@ const ForgottenPasswordPage = () => {
   return (
     <div>
       ForgottenPasswordPage
-      <Button>hdkjsfds</Button>
+      <Button>click</Button>
     </div>
   );
 };

@@ -37,7 +37,8 @@ const HomePage = () => {
         borderColor="black"
         borderRadius={10}
       >
-        <Tabs isFitted variant="enclosed" color="white">
+        <LoginComponent />
+        {/* <Tabs isFitted variant="enclosed" color="white">
           <TabList>
             <Tab _selected={{ color: "white", bg: "blue.500" }}>LogIn</Tab>
             <Tab _selected={{ color: "white", bg: "blue.500" }}>register</Tab>
@@ -45,13 +46,13 @@ const HomePage = () => {
 
           <TabPanels color="white" id="myTabPanel">
             <TabPanel>
-              <LoginComponent />
+              
             </TabPanel>
             <TabPanel>
               <RegisterComponent />
             </TabPanel>
           </TabPanels>
-        </Tabs>
+        </Tabs> */}
         {/* <input
           placeholder="Login"
           color="pink"

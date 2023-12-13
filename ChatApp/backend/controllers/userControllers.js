@@ -1,61 +1,51 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../Schemas/userRegisterSchema");
 const generateToken = require("../Config/generateToken");
-
-////////////controll for register///////////////////
+const DataBase = require("../Config/database");
+const Authenticator = require("../Config/authenticator");
 const registerUser = asyncHandler(async (request, response) => {
-  const { email, name, surname, password, image } = request.body;
+  const { email, username, password, role } = request.body;
+  console.log(email, username, password, role);
 
-  if (!email || !name || !surname || !password) {
+  if (!email || !username || !password || !role) {
     response.status(400);
     throw new Error("Empty fields found");
   }
-
-  const existedUser = await User.findOne({ email });
-
-  if (existedUser) {
-    response.status(400);
-    throw new Error("User having that e-mail already exists");
-  }
-
-  const newUser = await User.create({
-    email,
-    name,
-    surname,
-    password,
-    image,
-  });
-
-  if (newUser) {
+  const db = new DataBase();
+  const authenticator = new Authenticator(db);
+  const user = await authenticator.Register(username, password, email, role);
+  if (user) {
     response.status(201).json({
-      _id: newUser._id,
-      email: newUser.email,
-      name: newUser.name,
-      surname: newUser.surname,
-      image: newUser.image,
-      token: generateToken(newUser._id),
+      user_id: user.user_id,
+      username: user.username,
+      role: user.role_name,
+      role_id: user.role_id,
+      email: user.email,
+      enabled: user.enabled,
+      token: generateToken(user.user_id),
     });
   } else {
     throw new Error("Failed to create user");
   }
 });
 
-////////////////controll for login//////////////////////
 const loginUser = asyncHandler(async (request, response) => {
-  const { email, password } = request.body;
-  if (!email || !password) {
+  const { username, password } = request.body;
+  if (!username || !password) {
     response.status(400);
     throw new Error("Empty fields found");
   }
-  const user = await User.findOne({ email }); //returns all attributes of the user
-  if (user && password === user.password) {
+  const db = new DataBase();
+  const authenticator = new Authenticator(db);
+  const user = await authenticator.Login(username, password);
+  if (user) {
     response.status(201).json({
-      _id: user._id,
+      user_id: user.user_id,
+      username: user.username,
+      role: user.role_name,
+      role_id: user.role_id,
       email: user.email,
-      name: user.name,
-      surname: user.surname,
-      image: user.image,
-      token: generateToken(user._id),
+      enabled: user.enabled,
+      token: generateToken(user.user_id),
     });
   } else {
     response.status(401);
@@ -63,4 +53,4 @@ const loginUser = asyncHandler(async (request, response) => {
   }
 });
 
-module.exports = { registerUser, loginUser }; // curly brackets because of not default export
+module.exports = { registerUser, loginUser };

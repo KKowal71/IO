@@ -4,5 +4,5 @@ const { registerUser, loginUser } = require("../controllers/userControllers");
 const router = express.Router();
 
 router.route("/register").post(registerUser);
-router.route("/login").post(loginUser); //route instead of post, get, etc to chain multiply requests
+router.route("/login").post(loginUser);
 module.exports = router;

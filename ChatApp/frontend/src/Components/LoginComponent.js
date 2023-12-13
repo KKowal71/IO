@@ -23,12 +23,13 @@ const LoginComponent = () => {
   const history = useHistory();
   const goToForgottenPasswordPage = () => history.push("/forgottenPassword");
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const logIn = async () => {
+    console.log(username + " " + password);
     setIsLoading(true);
-    if (!email || !password) {
+    if (!username || !password) {
       toast({
         title: "Error",
         description: "You have to fill all fields",
@@ -49,7 +50,7 @@ const LoginComponent = () => {
       const { data } = await axios.post(
         "/api/user/login",
         {
-          email,
+          username: username,
           password,
         },
         config
@@ -64,7 +65,7 @@ const LoginComponent = () => {
         position: "top",
       });
       localStorage.setItem("loginUserData", JSON.stringify(data));
-      history.push("/chats");
+      history.push("/home");
     } catch {
       toast({
         title: "Error",
@@ -81,17 +82,19 @@ const LoginComponent = () => {
   return (
     <Stack spacing={4} align="center" width={600}>
       <FormControl isRequired>
-        <FormLabel>e-mail address</FormLabel>
+        <FormLabel color={"white"}>e-mail address or username</FormLabel>
         <Input
-          placeholder="enter your e-mail address"
-          onChange={(e) => setEmail(e.target.value)}
+          color={"white"}
+          placeholder="enter your e-mail address or username"
+          onChange={(e) => setUsername(e.target.value)}
         ></Input>
       </FormControl>
 
       <FormControl isRequired>
-        <FormLabel>password</FormLabel>
+        <FormLabel color={"white"}>password</FormLabel>
         <InputGroup>
           <Input
+            color={"white"}
             type={show ? "text" : "password"}
             placeholder="enter your password"
             onChange={(e) => setPassword(e.target.value)}
@@ -118,8 +121,8 @@ const LoginComponent = () => {
         Log In!
       </Button>
 
-      <Box display="inline-block">
-        If you forgot password click here
+      <Box display="flex">
+        <FormLabel color={"white"}>If you forgot password click here</FormLabel>
         <Button
           marginLeft={5}
           onClick={goToForgottenPasswordPage}

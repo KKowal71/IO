@@ -8,24 +8,37 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const RegisterComponent = () => {
+  const [roleName, setRoleName] = useState(
+    JSON.parse(localStorage.getItem("loginUserData")).role
+  );
   const [email, setEmail] = React.useState();
-  const [name, setName] = React.useState();
-  const [surname, setSurname] = React.useState();
+  const [username, setUserame] = React.useState();
   const [password, setPassword] = React.useState();
   const [confirmedPassword, setConfirmedPassword] = React.useState();
-  const [image, setImage] = React.useState();
+  const [role, setChildUserRole] = useState("");
+  const [showChildRole, setShowChildRole] = useState(true);
 
   const history = useHistory();
 
   const toast = useToast();
 
+  useEffect(() => {
+    mapRole();
+  }, []);
+
+  const mapRole = () => {
+    if (roleName === "ROLE_ADMIN") setChildUserRole("ROLE_TEACHER");
+    else if (roleName === "ROLE_TEACHER") setChildUserRole("ROLE_STUDENT");
+    else if (roleName === "ROLE_STUDENT") setShowChildRole(false);
+  };
+
   const registerNewUser = async () => {
-    if (!email || !name || !surname || !password) {
+    if (!email || !username || !password) {
       toast({
         title: "Error",
         description: "You have to fill all fields",
@@ -56,10 +69,9 @@ const RegisterComponent = () => {
         "/api/user/register",
         {
           email,
-          name,
-          surname,
+          username,
           password,
-          image,
+          role,
         },
         config
       );
@@ -96,6 +108,7 @@ const RegisterComponent = () => {
 
   return (
     <Stack spacing={3} align="center" width={600}>
+      <h1>Current user role: {roleName}</h1>
       <FormControl isRequired>
         <FormLabel>E-mail address</FormLabel>
         <Input
@@ -105,18 +118,10 @@ const RegisterComponent = () => {
       </FormControl>
 
       <FormControl isRequired>
-        <FormLabel>Name</FormLabel>
+        <FormLabel>Username</FormLabel>
         <Input
           placeholder="enter your name"
-          onChange={(e) => setName(e.target.value)}
-        ></Input>
-      </FormControl>
-
-      <FormControl isRequired>
-        <FormLabel>Surname</FormLabel>
-        <Input
-          placeholder="enter your surname"
-          onChange={(e) => setSurname(e.target.value)}
+          onChange={(e) => setUserame(e.target.value)}
         ></Input>
       </FormControl>
 
@@ -159,19 +164,7 @@ const RegisterComponent = () => {
           </InputRightElement>
         </InputGroup>
       </FormControl>
-
-      <FormControl>
-        <FormLabel>Image</FormLabel>
-        <InputGroup>
-          <Input
-            size={60}
-            type="file"
-            cursor="pointer"
-            borderRadius={5}
-            onChange={(e) => setImage(e.target.value)}
-          ></Input>
-        </InputGroup>
-      </FormControl>
+      {showChildRole && <FormLabel>Registered user's role: {role}</FormLabel>}
 
       <Button background="blue.300" onClick={registerNewUser}>
         Create account!
