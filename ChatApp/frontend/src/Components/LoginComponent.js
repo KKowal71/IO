@@ -63,10 +63,13 @@ const LoginComponent = () => {
         isClosable: true,
         position: "top",
       });
-      const { newdata } = await axios.post("/api/user/getLoggedUser", config);
-      console.log(newdata);
-      localStorage.setItem("loginUserData", JSON.stringify(newdata));
-      history.push("/home");
+      let userData = undefined;
+      axios.get("/api/user/getLoggedUser", config).then((response) => {
+        userData = response.data;
+        console.log(userData);
+        localStorage.setItem("loginUserData", JSON.stringify(userData));
+        history.push("/home");
+      });
     } catch {
       toast({
         title: "Error",

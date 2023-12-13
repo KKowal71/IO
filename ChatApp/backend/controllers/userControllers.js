@@ -61,11 +61,7 @@ const getLoggedUser = asyncHandler(async (request, response) => {
     response.status(201).json({
       user_id: user.user_id,
       username: user.username,
-      role: user.role_name,
-      role_id: user.role_id,
       email: user.email,
-      enabled: user.enabled,
-      token: generateToken(user.user_id),
     });
   } else {
     response.status(401);
