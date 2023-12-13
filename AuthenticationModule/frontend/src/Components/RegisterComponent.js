@@ -86,7 +86,7 @@ const RegisterComponent = () => {
       });
 
       localStorage.setItem("userData", JSON.stringify(data));
-      history.push("/chats");
+      history.push("/home");
     } catch (error) {
       toast({
         title: "Error",
