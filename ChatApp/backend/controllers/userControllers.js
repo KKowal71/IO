@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const generateToken = require("../Config/generateToken");
 const DataBase = require("../Config/database");
 const Authenticator = require("../Config/authenticator");
+const { use } = require("../routes/userRoutes");
+
 const registerUser = asyncHandler(async (request, response) => {
   const { email, username, password, role } = request.body;
   console.log(email, username, password, role);
@@ -53,4 +55,22 @@ const loginUser = asyncHandler(async (request, response) => {
   }
 });
 
-module.exports = { registerUser, loginUser };
+const getLoggedUser = asyncHandler(async (request, response) => {
+  const user = Authenticator.user;
+  if (user) {
+    response.status(201).json({
+      user_id: user.user_id,
+      username: user.username,
+      role: user.role_name,
+      role_id: user.role_id,
+      email: user.email,
+      enabled: user.enabled,
+      token: generateToken(user.user_id),
+    });
+  } else {
+    response.status(401);
+    throw new Error("User Not Logged In");
+  }
+});
+
+module.exports = { registerUser, loginUser, getLoggedUser };

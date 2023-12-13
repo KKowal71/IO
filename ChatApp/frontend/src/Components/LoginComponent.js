@@ -27,7 +27,6 @@ const LoginComponent = () => {
   const [password, setPassword] = useState("");
 
   const logIn = async () => {
-    console.log(username + " " + password);
     setIsLoading(true);
     if (!username || !password) {
       toast({
@@ -64,7 +63,9 @@ const LoginComponent = () => {
         isClosable: true,
         position: "top",
       });
-      localStorage.setItem("loginUserData", JSON.stringify(data));
+      const { newdata } = await axios.post("/api/user/getLoggedUser", config);
+      console.log(newdata);
+      localStorage.setItem("loginUserData", JSON.stringify(newdata));
       history.push("/home");
     } catch {
       toast({

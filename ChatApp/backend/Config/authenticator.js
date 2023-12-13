@@ -1,11 +1,13 @@
 const bcrypt = require("bcrypt");
 class Authenticator {
+  static user = undefined;
   constructor(dataBase) {
     this.saltRounds = 15;
     this.dataBase = dataBase;
   }
   Login = async (username, password) => {
-    return await this.IsUserDataValid(username, password);
+    Authenticator.user = await this.IsUserDataValid(username, password);
+    return Authenticator.user;
   };
 
   IsUserDataValid = async (username, password) => {

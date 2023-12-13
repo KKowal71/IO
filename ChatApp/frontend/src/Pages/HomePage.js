@@ -27,7 +27,7 @@ const HomePage = () => {
         fontSize="20"
         borderRadius={8}
       >
-        <Text fontSize={30}>Welcome to the ChatApp</Text>
+        <Text fontSize={30}>Welcome to the greenchallenge</Text>
       </Box>
       <Box
         margin={6}
