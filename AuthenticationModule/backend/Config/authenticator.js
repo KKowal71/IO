@@ -23,12 +23,18 @@ class Authenticator {
   };
 
   Register = async (username, password, email, role) => {
-    const passwordHash = await this.GenerateHash(password);
+    const passwordHash = this.GenerateHash(password);
     this.dataBase.addNewUser(username, passwordHash, email, role);
     return this.dataBase.getUser(username);
   };
 
-  GenerateHash = async (password) => {
+  GenerateHash = (password) => {
+    return Security.CalculateHash(password);
+  };
+}
+
+class Security {
+  static CalculateHash = async (password) => {
     const salt = await bcrypt.genSalt(this.saltRounds);
     return new Promise((resolve, reject) => {
       bcrypt.hash(password, salt).then((hash) => {
@@ -37,5 +43,4 @@ class Authenticator {
     });
   };
 }
-
 module.exports = Authenticator;
