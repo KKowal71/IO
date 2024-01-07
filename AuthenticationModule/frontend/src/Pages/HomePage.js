@@ -1,9 +1,17 @@
 import React from "react";
-import { Box, Container, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Text,
+  Tab,
+  Tabs,
+  TabList,
+  TabPanels,
+  TabPanel,
+} from "@chakra-ui/react";
 import RegisterComponent from "../Components/RegisterComponent";
 import LoginComponent from "../Components/LoginComponent";
 import MainPage from "./mainPage";
-
 const HomePage = () => {
   return (
     <Container maxWidth="xl" centerContent>
@@ -29,24 +37,32 @@ const HomePage = () => {
         borderColor="black"
         borderRadius={10}
       >
-        <MainPage></MainPage>
-        {/* <LoginComponent /> */}
-        {/* <RegisterComponent /> */}
-        {/* <Tabs isFitted variant="enclosed" color="white">
-          <TabList>
-            <Tab _selected={{ color: "white", bg: "blue.500" }}>LogIn</Tab>
-            <Tab _selected={{ color: "white", bg: "blue.500" }}>register</Tab>
-          </TabList>
+        <LoginComponent></LoginComponent>
+        {/* <MainPage></MainPage> */}
+        {/* {process.env.ADMIN == true ? (
+          <LoginComponent />
+        ) : (
+          <Tabs isFitted variant="enclosed" color="white">
+            <TabList>
+              <Tab _selected={{ color: "white", bg: "blue.500" }}>Login</Tab>
+              <Tab _selected={{ color: "white", bg: "blue.500" }}>
+                Register as Administrator
+              </Tab>
+            </TabList>
 
-          <TabPanels color="white" id="myTabPanel">
-            <TabPanel>
-              
-            </TabPanel>
-            <TabPanel>
-              <RegisterComponent />
-            </TabPanel>
-          </TabPanels>
-        </Tabs> */}
+            <TabPanels color="white" id="myTabPanel">
+              <TabPanel>
+                <LoginComponent />
+              </TabPanel>
+              <TabPanel>
+                <RegisterComponent />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        )} */}
+
+        {/* <RegisterComponent /> */}
+
         {/* <input
           placeholder="Login"
           color="pink"

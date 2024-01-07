@@ -32,7 +32,8 @@ const RegisterComponent = () => {
   }, []);
 
   const mapRole = () => {
-    if (roleName === "ROLE_ADMIN") setChildUserRole("ROLE_TEACHER");
+    if (roleName === "ROLE_ADMIN") setChildUserRole("ROLE_DIRECOR");
+    else if (roleName === "ROLE_DIRECOR") setChildUserRole("ROLE_TEACHER");
     else if (roleName === "ROLE_TEACHER") setChildUserRole("ROLE_STUDENT");
     else if (roleName === "ROLE_STUDENT") setShowChildRole(false);
   };
