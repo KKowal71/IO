@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../Config/generateToken");
-const Server = require("../Config/database");
+
 const Authenticator = require("../Config/authenticator");
 const { use } = require("../routes/userRoutes");
 
@@ -12,8 +12,8 @@ const registerUser = asyncHandler(async (request, response) => {
     response.status(400);
     throw new Error("Empty fields found");
   }
-  const db = new Server();
-  const authenticator = new Authenticator(db);
+
+  const authenticator = new Authenticator();
   const user = await authenticator.Register(username, password, email, role);
   if (user) {
     response.status(201).json({
@@ -36,8 +36,7 @@ const loginUser = asyncHandler(async (request, response) => {
     response.status(400);
     throw new Error("Empty fields found");
   }
-  const db = new Server();
-  const authenticator = new Authenticator(db);
+  const authenticator = new Authenticator();
   const user = await authenticator.Login(username, password);
   if (user) {
     response.status(201).json({

@@ -1,9 +1,10 @@
 const bcrypt = require("bcrypt");
+const server = require("../Config/database");
 class Authenticator {
   static user = undefined;
-  constructor(dataBase) {
+  constructor() {
     this.saltRounds = 15;
-    this.dataBase = dataBase;
+    this.dataBase = server;
   }
   Login = async (username, password) => {
     Authenticator.user = await this.IsUserDataValid(username, password);

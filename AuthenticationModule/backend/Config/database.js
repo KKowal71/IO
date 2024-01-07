@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 
-class Server {
-  constructor() {
+var Server = {
+  connectionInit: () => {
     this.dbConn = mysql.createConnection({
       host: "io2023.mysql.database.azure.com",
       user: "studentuser",
@@ -17,20 +17,20 @@ class Server {
       }
       console.log("Mysql database is connected");
     });
-  }
+  },
 
-  addNewUser = async (username, passwordHash, email, role) => {
+  addNewUser: async (username, passwordHash, email, role) => {
     const query = `INSERT INTO user (username, password, email, role_id)
     SELECT "${username}", "${passwordHash}", "${email}", role_id FROM ROLE WHERE role_name like "%${role}"`;
     return this.getQueryResult(query);
-  };
+  },
 
-  getUser = (username) => {
+  getUser: (username) => {
     const query = `SELECT * FROM user u JOIN role r ON u.role_id = r.role_id WHERE username = "${username}"`;
     return this.getQueryResult(query);
-  };
+  },
 
-  getQueryResult = (query) => {
+  getQueryResult: (query) => {
     return new Promise((resolve, reject) => {
       this.dbConn.query(query, (err, result) => {
         if (err) {
@@ -41,6 +41,8 @@ class Server {
         }
       });
     });
-  };
-}
+  },
+};
+
+Server.connectionInit();
 module.exports = Server;
