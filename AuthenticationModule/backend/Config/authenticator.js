@@ -10,7 +10,7 @@ class Authenticator {
   Login = async (username, password) => {
     Authenticator.user = await this.IsUserDataValid(username, password);
     Authenticator.user.token = generateToken(Authenticator.user.user_id);
-    server.addLog(
+    Logger.addLog(
       `Logged in username ${username}`,
       new Date().toLocaleString(),
       "INFO"
@@ -44,7 +44,7 @@ class Authenticator {
       role,
       Authenticator.user.user_id
     );
-    server.addLog(
+    Logger.addLog(
       `Registered user named ${username}`,
       new Date().toLocaleString(),
       "INFO"

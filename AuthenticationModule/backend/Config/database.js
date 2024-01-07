@@ -36,7 +36,7 @@ var Server = {
     const returnQuery = `INSERT INTO user (username, password, email, role_id, container_id)
     SELECT "${username}", "${passwordHash}", "${email}", role_id, container_id FROM ROLE JOIN CONTAINERS
     WHERE role_name like "%${role}" and owner_id = ${container_owner}`;
-    Server.addLog(
+    Logger.addLog(
       `Successfully added user ${username} user_id:${id}`,
       new Date().toLocaleString(),
       "INFO"
@@ -47,7 +47,7 @@ var Server = {
   addNewClass: async (container_name, owner_id) => {
     const query = `INSERT INTO containers (container_type_id, container_name, owner_id)
     VALUES (2, "${container_name}", ${owner_id})`;
-    Server.addLog(
+    Logger.addLog(
       `Successfully added new class named ${container_name}, owned by user with id: ${owner_id}`,
       new Date().toLocaleString(),
       "INFO"
