@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const Server = require("../Config/database");
+const { Server, Logger } = require("../Config/database");
 const { Authenticator, Security } = require("../Config/authenticator");
 const { response } = require("express");
 
@@ -98,8 +98,7 @@ const logOutUser = asyncHandler(async (request, response) => {
 const logEvent = async (request, response) => {
   const { message, level } = request.body;
   const timestamp = Date.now();
-  const db = Server;
-  await db.addLog(message, timestamp, level);
+  await Logger.addLog(message, timestamp, level);
   response.status(201).sent("logged new event");
 };
 

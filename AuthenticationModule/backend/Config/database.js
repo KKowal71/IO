@@ -63,18 +63,22 @@ var Server = {
   updateUser: async (id, username) => {
     const query = `UPDATE user SET username = "${username}" WHERE user_id = ${id}`;
     Server.getQueryResult(query);
-    Server.addLog(
+    Logger.addLog(
       `Successfully updated username to ${username} user_id:${id}`,
       new Date().toLocaleString(),
       "INFO"
     );
     return Server.getUser(username);
   },
-
-  addLog: async (message, timestamp, level) => {
-    const query = `INSERT INTO log_table (log_message, log_date, log_level) VALUES ("${message}", "${timestamp}", "${level}")`;
-    return Server.getQueryResult(query);
-  },
 };
+class Logger {
+  static dbname = "log_table";
+  static logLevel = "INFO";
+
+  static addLog = async (message, timestamp, level) => {
+    const query = `INSERT INTO ${dbname} (log_message, log_date, log_level) VALUES ("${message}", "${timestamp}", "${level}")`;
+    return Server.getQueryResult(query);
+  };
+}
 Server.connectionInit();
-module.exports = Server;
+(module.exports = Server), Logger;
