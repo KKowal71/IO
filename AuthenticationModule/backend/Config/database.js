@@ -3,17 +3,17 @@ const mysql = require("mysql");
 var Server = {
   connectionInit: () => {
     this.dbConn = mysql.createConnection({
-      host: "io2023.mysql.database.azure.com",
-      user: "studentuser",
-      password: "kuxgox-6zavgi-qUkkib",
-      database: "greenchallenge",
+      host: "localhost",
+      user: "root",
+      password: "root",
+      database: "authmodule",
       port: "3306",
-      ssl: true,
     });
 
     this.dbConn.connect((err) => {
       if (err) {
         console.error("Mysql connection error:", err);
+        return;
       }
       console.log("Mysql database is connected");
     });
