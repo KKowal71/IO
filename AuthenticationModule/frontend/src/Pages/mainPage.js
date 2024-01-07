@@ -3,12 +3,19 @@ import React, { useState } from "react";
 import CreateClassComponent from "../Components/CreateClassComponent";
 import RegisterComponent from "../Components/RegisterComponent";
 import UserInfoComponent from "../Components/UserInfoComponent";
+import axios from "axios";
 
 const MainPage = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [showCredentialsForm, setShowCredentialsForm] = useState(false);
   const [showCreateClassForm, setShowCreateClassForm] = useState(false);
+
+  const logOut = () => {
+    axios.post("/api/user/logout");
+    localStorage.removeItem("loginUserData");
+    window.location.href = "/";
+  };
 
   return (
     <div>
@@ -18,6 +25,7 @@ const MainPage = () => {
       >
         ⚙️
       </Button>
+      <Button onClick={logOut}>🔚</Button>
       {showSettings && (
         <Stack>
           <Text

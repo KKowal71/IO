@@ -91,6 +91,11 @@ const createNewClass = async (request, response) => {
   await Server.addNewClass(className, user_id);
 };
 
+const logOutUser = async (request, response) => {
+  Authenticator.user = null;
+  response.status(201).send("User logged out successfully");
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -98,4 +103,5 @@ module.exports = {
   getGreeting,
   updateUserData,
   createNewClass,
+  logOutUser,
 };
