@@ -19,17 +19,6 @@ var Server = {
     });
   },
 
-  addNewUser: async (username, passwordHash, email, role) => {
-    const query = `INSERT INTO user (username, password, email, role_id)
-    SELECT "${username}", "${passwordHash}", "${email}", role_id FROM ROLE WHERE role_name like "%${role}"`;
-    return this.getQueryResult(query);
-  },
-
-  getUser: (username) => {
-    const query = `SELECT * FROM user u JOIN role r ON u.role_id = r.role_id WHERE username = "${username}"`;
-    return this.getQueryResult(query);
-  },
-
   getQueryResult: (query) => {
     return new Promise((resolve, reject) => {
       this.dbConn.query(query, (err, result) => {
@@ -43,9 +32,20 @@ var Server = {
     });
   },
 
+  addNewUser: async (username, passwordHash, email, role) => {
+    const query = `INSERT INTO user (username, password, email, role_id)
+    SELECT "${username}", "${passwordHash}", "${email}", role_id FROM ROLE WHERE role_name like "%${role}"`;
+    return Server.getQueryResult(query);
+  },
+
+  getUser: (username) => {
+    const query = `SELECT * FROM user u JOIN role r ON u.role_id = r.role_id WHERE username = "${username}"`;
+    return Server.getQueryResult(query);
+  },
+
   updateUser: (id, username, passwordHash) => {
     const query = `UPDATE user SET username = ${username}, password = ${passwordHash} WHERE user_id = ${id}`;
-    return this.getQueryResult(query);
+    return Server.getQueryResult(query);
   },
 };
 Server.connectionInit();

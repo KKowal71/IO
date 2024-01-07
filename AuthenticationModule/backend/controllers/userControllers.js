@@ -1,5 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const generateToken = require("../Config/generateToken");
 const Server = require("../Config/database");
 const { Authenticator, Security } = require("../Config/authenticator");
 
@@ -22,7 +21,6 @@ const registerUser = asyncHandler(async (request, response) => {
       role_id: user.role_id,
       email: user.email,
       enabled: user.enabled,
-      token: generateToken(user.user_id),
     });
   } else {
     throw new Error("Failed to create user");
@@ -45,7 +43,7 @@ const loginUser = asyncHandler(async (request, response) => {
       role_id: user.role_id,
       email: user.email,
       enabled: user.enabled,
-      token: generateToken(user.user_id),
+      token: user.token,
     });
   } else {
     response.status(401);
@@ -59,7 +57,10 @@ const getLoggedUser = asyncHandler(async (request, response) => {
     response.status(201).json({
       user_id: user.user_id,
       username: user.username,
+      role: user.role_name,
       email: user.email,
+      enabled: user.enabled,
+      token: user.token,
     });
   } else {
     response.status(401);

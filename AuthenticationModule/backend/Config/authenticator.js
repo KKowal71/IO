@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
 const server = require("../Config/database");
+const generateToken = require("../Config/generateToken");
+
 class Authenticator {
   static user = undefined;
   constructor() {
@@ -8,6 +10,7 @@ class Authenticator {
   }
   Login = async (username, password) => {
     Authenticator.user = await this.IsUserDataValid(username, password);
+    Authenticator.user.token = generateToken(Authenticator.user.user_id);
     return Authenticator.user;
   };
 
