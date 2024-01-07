@@ -77,10 +77,10 @@ const getGreeting = async (reuest, response) => {
 
 const updateUserData = asyncHandler(async (request, response) => {
   const { id } = request.params;
-  const { username, password } = request.body;
-  const passwordHash = await Security.CalculateHash(password);
+  const { username } = request.body;
   const db = Server;
-  const updatedUser = await db.updateUser(id, username, passwordHash);
+  const updatedUser = await db.updateUser(id, username);
+  Authenticator.user = updatedUser;
   response.status(201).send(updatedUser);
 });
 

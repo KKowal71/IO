@@ -36,12 +36,22 @@ var Server = {
     const returnQuery = `INSERT INTO user (username, password, email, role_id, container_id)
     SELECT "${username}", "${passwordHash}", "${email}", role_id, container_id FROM ROLE JOIN CONTAINERS
     WHERE role_name like "%${role}" and owner_id = ${container_owner}`;
+    Server.addLog(
+      `Successfully added user ${username} user_id:${id}`,
+      new Date().toLocaleString(),
+      "INFO"
+    );
     return Server.getQueryResult(returnQuery);
   },
 
   addNewClass: async (container_name, owner_id) => {
     const query = `INSERT INTO containers (container_type_id, container_name, owner_id)
     VALUES (2, "${container_name}", ${owner_id})`;
+    Server.addLog(
+      `Successfully added new class named ${container_name}, owned by user with id: ${owner_id}`,
+      new Date().toLocaleString(),
+      "INFO"
+    );
     return Server.getQueryResult(query);
   },
 
@@ -50,9 +60,15 @@ var Server = {
     return Server.getQueryResult(query);
   },
 
-  updateUser: async (id, username, passwordHash) => {
-    const query = `UPDATE user SET username = ${username}, password = ${passwordHash} WHERE user_id = ${id}`;
-    return Server.getQueryResult(query);
+  updateUser: async (id, username) => {
+    const query = `UPDATE user SET username = "${username}" WHERE user_id = ${id}`;
+    Server.getQueryResult(query);
+    Server.addLog(
+      `Successfully updated username to ${username} user_id:${id}`,
+      new Date().toLocaleString(),
+      "INFO"
+    );
+    return Server.getUser(username);
   },
 
   addLog: async (message, timestamp, level) => {

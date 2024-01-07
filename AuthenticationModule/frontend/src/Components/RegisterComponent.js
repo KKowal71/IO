@@ -97,9 +97,6 @@ const RegisterComponent = () => {
         isClosable: true,
         position: "top",
       });
-
-      localStorage.setItem("userData", JSON.stringify(data));
-      history.push("/home");
     } catch (error) {
       toast({
         title: "Error",
@@ -178,13 +175,15 @@ const RegisterComponent = () => {
         </InputGroup>
       </FormControl>
 
-      <FormControl isRequired>
-        <FormLabel>Class Name</FormLabel>
-        <Input
-          placeholder="enter class name"
-          onChange={(e) => setContainerName(e.target.value)}
-        ></Input>
-      </FormControl>
+      {roleName === "ROLE_DIRECTOR" && (
+        <FormControl isRequired>
+          <FormLabel>Class Name</FormLabel>
+          <Input
+            placeholder="enter class name"
+            onChange={(e) => setContainerName(e.target.value)}
+          ></Input>
+        </FormControl>
+      )}
       {showChildRole && <FormLabel>Registered user's role: {role}</FormLabel>}
 
       <Button background="blue.300" onClick={registerNewUser}>

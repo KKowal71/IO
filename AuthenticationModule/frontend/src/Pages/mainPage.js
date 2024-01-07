@@ -1,6 +1,5 @@
 import { Stack, Button, Text, Textarea } from "@chakra-ui/react";
 import React, { useState } from "react";
-import CreateClassComponent from "../Components/CreateClassComponent";
 import RegisterComponent from "../Components/RegisterComponent";
 import UserInfoComponent from "../Components/UserInfoComponent";
 import { useHistory } from "react-router-dom";
@@ -11,7 +10,6 @@ const MainPage = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [showCredentialsForm, setShowCredentialsForm] = useState(false);
-  const [showCreateClassForm, setShowCreateClassForm] = useState(false);
   const history = useHistory();
 
   const logOut = async () => {
@@ -40,21 +38,10 @@ const MainPage = () => {
           >
             Register user
           </Text>
-          {showRegisterForm && <RegisterComponent />}
+          {showRegisterForm &&
+            JSON.parse(localStorage.getItem("loginUserData")).role !=
+              "ROLE_STUDENT" && <RegisterComponent />}
 
-          {JSON.parse(localStorage.getItem("loginUserData")).role ===
-            "ROLE_DIRECTOR" && (
-            <Text
-              color={"white"}
-              cursor={"pointer"}
-              onClick={() => {
-                setShowCreateClassForm(!showCreateClassForm);
-              }}
-            >
-              CREATE CLASS
-            </Text>
-          )}
-          {showCreateClassForm && <CreateClassComponent />}
           <Text
             color={"white"}
             cursor={"pointer"}
