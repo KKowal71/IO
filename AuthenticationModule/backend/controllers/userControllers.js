@@ -1,8 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../Config/generateToken");
-
-const Authenticator = require("../Config/authenticator");
-const { use } = require("../routes/userRoutes");
+const Server = require("../Config/database");
+const { Authenticator, Security } = require("../Config/authenticator");
 
 const registerUser = asyncHandler(async (request, response) => {
   const { email, username, password, role } = request.body;
@@ -74,4 +73,19 @@ const getGreeting = async (reuest, response) => {
   });
 };
 
-module.exports = { registerUser, loginUser, getLoggedUser, getGreeting };
+const updateUserData = asyncHandler(async (request, response) => {
+  const { id } = request.params;
+  const { username, password } = request.body;
+  const passwordHash = await Security.CalculateHash(password);
+  const db = Server;
+  const updatedUser = db.updateUser(id, username, passwordHash);
+  response.status(201).send(updatedUser);
+});
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getLoggedUser,
+  getGreeting,
+  updateUserData,
+};

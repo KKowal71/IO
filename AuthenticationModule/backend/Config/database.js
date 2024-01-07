@@ -42,7 +42,11 @@ var Server = {
       });
     });
   },
-};
 
+  updateUser: (id, username, passwordHash) => {
+    const query = `UPDATE user SET username = ${username}, password = ${passwordHash} WHERE user_id = ${id}`;
+    return this.getQueryResult(query);
+  },
+};
 Server.connectionInit();
 module.exports = Server;

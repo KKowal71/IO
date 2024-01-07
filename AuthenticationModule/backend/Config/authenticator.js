@@ -44,4 +44,4 @@ class Security {
     });
   };
 }
-module.exports = Authenticator;
+module.exports = { Authenticator, Security };
