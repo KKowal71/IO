@@ -20,7 +20,7 @@ class Authenticator {
 
   IsUserDataValid = async (username, password) => {
     const user = await this.dataBase.getUser(username);
-    const match = await bcrypt.compare(password, user.password);
+    const match = await CompareHash(password, user.password);
     if (match) {
       console.log("Password is correct");
       return user;
@@ -28,6 +28,10 @@ class Authenticator {
       console.log("Password is incorrect");
       return false;
     }
+  };
+
+  CompareHash = async (password, user_password) => {
+    return await bcrypt.compare(password, user.password);
   };
 
   Register = async (username, password, email, role) => {
