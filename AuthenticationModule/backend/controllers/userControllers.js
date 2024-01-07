@@ -69,4 +69,10 @@ const getLoggedUser = asyncHandler(async (request, response) => {
   }
 });
 
-module.exports = { registerUser, loginUser, getLoggedUser };
+const getGreeting = async (reuest, response) => {
+  response.status(201).json({
+    greeting: "Hello",
+  });
+};
+
+module.exports = { registerUser, loginUser, getLoggedUser, getGreeting };

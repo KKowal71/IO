@@ -6,7 +6,7 @@ import MainPage from "./Pages/mainPage";
 
 function App() {
   return (
-    <div className="Authentication Module">
+    <div className="AuthenticationModule">
       <Route path="/" component={HomePage} exact />
       <Route path="/home" component={MainPage} />
       <Route path="/forgottenPassword" component={ForgottenPasswordPage} />

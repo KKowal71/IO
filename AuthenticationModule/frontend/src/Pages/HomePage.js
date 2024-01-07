@@ -1,16 +1,8 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Text,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-} from "@chakra-ui/react";
+import { Box, Container, Text } from "@chakra-ui/react";
 import RegisterComponent from "../Components/RegisterComponent";
 import LoginComponent from "../Components/LoginComponent";
+import MainPage from "./mainPage";
 
 const HomePage = () => {
   return (
@@ -37,7 +29,9 @@ const HomePage = () => {
         borderColor="black"
         borderRadius={10}
       >
-        <LoginComponent />
+        <MainPage></MainPage>
+        {/* <LoginComponent /> */}
+        {/* <RegisterComponent /> */}
         {/* <Tabs isFitted variant="enclosed" color="white">
           <TabList>
             <Tab _selected={{ color: "white", bg: "blue.500" }}>LogIn</Tab>
