@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import CreateClassComponent from "../Components/CreateClassComponent";
 import RegisterComponent from "../Components/RegisterComponent";
 import UserInfoComponent from "../Components/UserInfoComponent";
+import { useHistory } from "react-router-dom";
+
 import axios from "axios";
 
 const MainPage = () => {
@@ -10,11 +12,12 @@ const MainPage = () => {
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [showCredentialsForm, setShowCredentialsForm] = useState(false);
   const [showCreateClassForm, setShowCreateClassForm] = useState(false);
+  const history = useHistory();
 
   const logOut = () => {
     axios.post("/api/user/logout");
     localStorage.removeItem("loginUserData");
-    window.location.href = "/";
+    history.replace("/");
   };
 
   return (
