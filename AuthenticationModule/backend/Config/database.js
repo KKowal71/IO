@@ -33,8 +33,14 @@ var Server = {
   },
 
   addNewUser: async (username, passwordHash, email, role) => {
-    const query = `INSERT INTO user (username, password, email, role_id)
+    const returnQuery = `INSERT INTO user (username, password, email, role_id)
     SELECT "${username}", "${passwordHash}", "${email}", role_id FROM ROLE WHERE role_name like "%${role}"`;
+    return Server.getQueryResult(returnQuery);
+  },
+
+  addNewClass: async (container_name, owner_id) => {
+    const query = `INSERT INTO containers (container_type_id, container_name, owner_id)
+    VALUES (2, "${container_name}", ${owner_id})`;
     return Server.getQueryResult(query);
   },
 
@@ -43,7 +49,7 @@ var Server = {
     return Server.getQueryResult(query);
   },
 
-  updateUser: (id, username, passwordHash) => {
+  updateUser: async (id, username, passwordHash) => {
     const query = `UPDATE user SET username = ${username}, password = ${passwordHash} WHERE user_id = ${id}`;
     return Server.getQueryResult(query);
   },

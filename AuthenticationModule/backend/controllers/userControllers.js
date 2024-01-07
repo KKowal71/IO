@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Server = require("../Config/database");
 const { Authenticator, Security } = require("../Config/authenticator");
+const { response } = require("express");
 
 const registerUser = asyncHandler(async (request, response) => {
   const { email, username, password, role } = request.body;
@@ -79,9 +80,16 @@ const updateUserData = asyncHandler(async (request, response) => {
   const { username, password } = request.body;
   const passwordHash = await Security.CalculateHash(password);
   const db = Server;
-  const updatedUser = db.updateUser(id, username, passwordHash);
+  const updatedUser = await db.updateUser(id, username, passwordHash);
   response.status(201).send(updatedUser);
 });
+
+const createNewClass = async (request, response) => {
+  const { className, user_id } = request.body;
+
+  const db = Server;
+  await Server.addNewClass(className, user_id);
+};
 
 module.exports = {
   registerUser,
@@ -89,4 +97,5 @@ module.exports = {
   getLoggedUser,
   getGreeting,
   updateUserData,
+  createNewClass,
 };

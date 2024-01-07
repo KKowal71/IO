@@ -1,9 +1,10 @@
-import { Button, Input, Stack, Text } from "@chakra-ui/react";
+import { Button, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import EditFieldComponent from "./EditFieldComponent";
 import axios from "axios";
-
 import { useState } from "react";
+
 const UserInfoComponent = () => {
+  const toast = useToast();
   const [username, setUsername] = useState(
     JSON.parse(localStorage.getItem("loginUserData")).username
   );
@@ -49,3 +50,5 @@ const UserInfoComponent = () => {
     </Stack>
   );
 };
+
+export default UserInfoComponent;

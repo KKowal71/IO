@@ -18,3 +18,5 @@ const EditFieldComponent = ({ value, setValue }) => {
     </div>
   );
 };
+
+export default EditFieldComponent;

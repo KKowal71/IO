@@ -5,7 +5,6 @@ const generateToken = require("../Config/generateToken");
 class Authenticator {
   static user = undefined;
   constructor() {
-    this.saltRounds = 15;
     this.dataBase = server;
   }
   Login = async (username, password) => {
@@ -27,24 +26,27 @@ class Authenticator {
   };
 
   Register = async (username, password, email, role) => {
-    const passwordHash = this.GenerateHash(password);
+    const passwordHash = await this.GenerateHash(password);
     this.dataBase.addNewUser(username, passwordHash, email, role);
     return this.dataBase.getUser(username);
   };
 
-  GenerateHash = (password) => {
-    return Security.CalculateHash(password);
+  GenerateHash = async (password) => {
+    return await Security.CalculateHash(password);
   };
 }
 
 class Security {
   static CalculateHash = async (password) => {
-    const salt = await bcrypt.genSalt(this.saltRounds);
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(password, salt).then((hash) => {
-        resolve(hash);
-      });
-    });
+    const saltRounds = 15;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+    return hash;
+    // return new Promise((resolve, reject) => {
+    //   bcrypt.hash(password, salt).then((hash) => {
+    //     resolve(hash);
+    //   });
+    // });
   };
 }
 module.exports = { Authenticator, Security };

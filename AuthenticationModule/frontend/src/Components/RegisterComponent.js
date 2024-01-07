@@ -21,7 +21,7 @@ const RegisterComponent = () => {
   const [password, setPassword] = React.useState();
   const [confirmedPassword, setConfirmedPassword] = React.useState();
   const [role, setChildUserRole] = useState("");
-  const [containerId, setContainerId] = useState();
+  const [containerName, setContainerName] = useState();
   const [showChildRole, setShowChildRole] = useState(true);
 
   const history = useHistory();
@@ -33,8 +33,8 @@ const RegisterComponent = () => {
   }, []);
 
   const mapRole = () => {
-    if (roleName === "ROLE_ADMIN") setChildUserRole("ROLE_DIRECOR");
-    else if (roleName === "ROLE_DIRECOR") setChildUserRole("ROLE_TEACHER");
+    if (roleName === "ROLE_ADMIN") setChildUserRole("ROLE_DIRECTOR");
+    else if (roleName === "ROLE_DIRECTOR") setChildUserRole("ROLE_TEACHER");
     else if (roleName === "ROLE_TEACHER") setChildUserRole("ROLE_STUDENT");
     else if (roleName === "ROLE_STUDENT") setShowChildRole(false);
   };
@@ -78,6 +78,17 @@ const RegisterComponent = () => {
         config
       );
       console.log(data);
+      if (roleName === "ROLE_DIRECTOR") {
+        await axios.post(
+          "api/user/class",
+          {
+            className: containerName,
+            user_id: data.user_id,
+          },
+          config
+        );
+      }
+
       toast({
         title: "Success",
         description: "Account created!",
@@ -168,10 +179,10 @@ const RegisterComponent = () => {
       </FormControl>
 
       <FormControl isRequired>
-        <FormLabel>Container Id</FormLabel>
+        <FormLabel>Container Name</FormLabel>
         <Input
-          placeholder="enter container id"
-          onChange={(e) => setContainerId(e.target.value)}
+          placeholder="enter container name"
+          onChange={(e) => setContainerName(e.target.value)}
         ></Input>
       </FormControl>
       {showChildRole && <FormLabel>Registered user's role: {role}</FormLabel>}
