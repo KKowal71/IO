@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 
-class DataBase {
+class Server {
   constructor() {
     this.dbConn = mysql.createConnection({
       host: "io2023.mysql.database.azure.com",
@@ -18,6 +18,7 @@ class DataBase {
       console.log("Mysql database is connected");
     });
   }
+
   addNewUser = async (username, passwordHash, email, role) => {
     const query = `INSERT INTO user (username, password, email, role_id)
     SELECT "${username}", "${passwordHash}", "${email}", role_id FROM ROLE WHERE role_name like "%${role}"`;
@@ -42,4 +43,4 @@ class DataBase {
     });
   };
 }
-module.exports = DataBase;
+module.exports = Server;
