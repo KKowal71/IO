@@ -35,6 +35,7 @@ const MainPage = () => {
           >
             Update credentials
           </Text>
+          {showCredentialsForm && <UserInfoComponent></UserInfoComponent>}
         </Stack>
       )}
     </div>

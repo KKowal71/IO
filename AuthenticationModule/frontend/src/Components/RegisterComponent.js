@@ -21,6 +21,7 @@ const RegisterComponent = () => {
   const [password, setPassword] = React.useState();
   const [confirmedPassword, setConfirmedPassword] = React.useState();
   const [role, setChildUserRole] = useState("");
+  const [containerId, setContainerId] = useState();
   const [showChildRole, setShowChildRole] = useState(true);
 
   const history = useHistory();
@@ -164,6 +165,14 @@ const RegisterComponent = () => {
             </Button>
           </InputRightElement>
         </InputGroup>
+      </FormControl>
+
+      <FormControl isRequired>
+        <FormLabel>Container Id</FormLabel>
+        <Input
+          placeholder="enter container id"
+          onChange={(e) => setContainerId(e.target.value)}
+        ></Input>
       </FormControl>
       {showChildRole && <FormLabel>Registered user's role: {role}</FormLabel>}
 
