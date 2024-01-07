@@ -14,8 +14,8 @@ const MainPage = () => {
   const [showCreateClassForm, setShowCreateClassForm] = useState(false);
   const history = useHistory();
 
-  const logOut = () => {
-    axios.post("/api/user/logout");
+  const logOut = async () => {
+    await axios.post("/api/user/logout");
     localStorage.removeItem("loginUserData");
     history.replace("/");
   };

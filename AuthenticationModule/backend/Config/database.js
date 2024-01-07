@@ -32,9 +32,10 @@ var Server = {
     });
   },
 
-  addNewUser: async (username, passwordHash, email, role) => {
-    const returnQuery = `INSERT INTO user (username, password, email, role_id)
-    SELECT "${username}", "${passwordHash}", "${email}", role_id FROM ROLE WHERE role_name like "%${role}"`;
+  addNewUser: async (username, passwordHash, email, role, container_owner) => {
+    const returnQuery = `INSERT INTO user (username, password, email, role_id, container_id)
+    SELECT "${username}", "${passwordHash}", "${email}", role_id, container_id FROM ROLE JOIN CONTAINERS
+    WHERE role_name like "%${role}" and owner_id = ${container_owner}`;
     return Server.getQueryResult(returnQuery);
   },
 
@@ -51,6 +52,11 @@ var Server = {
 
   updateUser: async (id, username, passwordHash) => {
     const query = `UPDATE user SET username = ${username}, password = ${passwordHash} WHERE user_id = ${id}`;
+    return Server.getQueryResult(query);
+  },
+
+  addLog: async (message, timestamp, level) => {
+    const query = `INSERT INTO log_table (log_message, log_date, log_level) VALUES ("${message}", "${timestamp}", "${level}")`;
     return Server.getQueryResult(query);
   },
 };

@@ -179,9 +179,9 @@ const RegisterComponent = () => {
       </FormControl>
 
       <FormControl isRequired>
-        <FormLabel>Container Name</FormLabel>
+        <FormLabel>Class Name</FormLabel>
         <Input
-          placeholder="enter container name"
+          placeholder="enter class name"
           onChange={(e) => setContainerName(e.target.value)}
         ></Input>
       </FormControl>

@@ -86,14 +86,21 @@ const updateUserData = asyncHandler(async (request, response) => {
 
 const createNewClass = async (request, response) => {
   const { className, user_id } = request.body;
-
-  const db = Server;
   await Server.addNewClass(className, user_id);
+  response.status(201).send("Class created successfully");
 };
 
-const logOutUser = async (request, response) => {
+const logOutUser = asyncHandler(async (request, response) => {
   Authenticator.user = null;
   response.status(201).send("User logged out successfully");
+});
+
+const logEvent = async (request, response) => {
+  const { message, level } = request.body;
+  const timestamp = Date.now();
+  const db = Server;
+  await db.addLog(message, timestamp, level);
+  response.status(201).sent("logged new event");
 };
 
 module.exports = {
@@ -104,4 +111,5 @@ module.exports = {
   updateUserData,
   createNewClass,
   logOutUser,
+  logEvent,
 };
